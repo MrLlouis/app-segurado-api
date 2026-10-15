@@ -30,7 +30,13 @@ let cached: Env | null = null;
  */
 export function getEnv(): Env {
   if (cached) return cached;
-  const parsed = envSchema.safeParse(process.env);
+  // O docker compose repassa variável não definida no .env como string vazia.
+  // Vazio conta como ausente: assim valem os defaults (COOKIE_SECURE=true) e
+  // uma chave opcional em branco (INTERNAL_API_KEY) não vira segredo "".
+  const definidas = Object.fromEntries(
+    Object.entries(process.env).filter(([, valor]) => valor !== ''),
+  );
+  const parsed = envSchema.safeParse(definidas);
   if (!parsed.success) {
     const detalhes = z.prettifyError(parsed.error);
     throw new Error(`Variáveis de ambiente inválidas ou ausentes:\n${detalhes}`);
