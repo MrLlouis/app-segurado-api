@@ -98,7 +98,7 @@ Para desligar: `docker compose down` e `supabase stop`.
 
 ## Banco e dados de teste
 
-As migrations ficam em `supabase/migrations/` (uma tabela por bloco, na ordem das dependências da
+As migrations ficam em `supabase/migrations/` (um arquivo por tabela, na ordem das dependências da
 seção 5.3 da especificação) e o seed em `supabase/seed.sql`. `supabase db reset` recria tudo.
 Os PDFs de exemplo das apólices estão em `supabase/seed/apolices/` e sobem para o bucket privado
 `apolices` no `supabase start`.
